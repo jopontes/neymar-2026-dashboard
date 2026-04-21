@@ -24,8 +24,8 @@ const CustomTooltip = ({ active, payload, label }) => {
       <div className="custom-tooltip">
         <p className="label">{label}</p>
         {payload.map((entry, index) => (
-          <p key={index} style={{ color: entry.fill || entry.stroke, fontWeight: 'bold', fontSize: '1.2rem' }}>
-            {entry.value}
+          <p key={index} style={{ color: entry.fill || entry.stroke, fontWeight: 'bold', fontSize: payload.length > 1 ? '0.95rem' : '1.2rem' }}>
+            {payload.length > 1 ? `${entry.name}: ` : ''}{entry.value}
           </p>
         ))}
       </div>
