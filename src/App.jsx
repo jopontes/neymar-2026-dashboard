@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, Legend, LineChart, Line } from 'recharts';
 import { Activity, ShieldAlert, HeartPulse, Trophy, Repeat, Quote, CalendarDays, Brain, CheckCircle, XCircle, SlidersHorizontal, User, ThumbsUp, ThumbsDown, HelpCircle, Target, Zap, Eye, Flame, Clock, Shield } from 'lucide-react';
 
@@ -87,8 +87,30 @@ function MatchCard({ match }) {
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' | 'matches'
   const [viewMode, setViewMode] = useState('selecao'); // 'selecao' | 'clubes'
-  const [activeMetric, setActiveMetric] = useState('ga');
   const [selectedPlayers, setSelectedPlayers] = useState(['neymar', 'vini', 'raphinha', 'estevao', 'joaopedro']);
+
+  const availableMetrics = useMemo(() => {
+    return METRICS.filter(metric => {
+      // Métricas básicas sempre ficam
+      if (['ga', 'gols', 'assist', 'mins', 'jogos'].includes(metric.id)) return true;
+      
+      // Métricas avançadas: só mostra se houver algum dado não-zero no modo atual
+      return evolutionData.some(yearData => {
+        const modeData = yearData[viewMode];
+        if (!modeData) return false;
+        return Object.values(modeData).some(playerStats => 
+          playerStats && playerStats[metric.id] > 0
+        );
+      });
+    });
+  }, [viewMode]);
+
+  // Se o usuário trocar o modo e a métrica atual sumir, volta para Participações
+  useEffect(() => {
+    if (!availableMetrics.find(m => m.id === activeMetric)) {
+      setActiveMetric('ga');
+    }
+  }, [viewMode, availableMetrics, activeMetric]);
 
   const togglePlayer = (id) => {
     if (selectedPlayers.includes(id)) {
@@ -200,7 +222,7 @@ function App() {
                   onChange={(e) => setActiveMetric(e.target.value)}
                   style={{ padding: '0.5rem', borderRadius: '8px', background: '#1e293b', color: '#fff', border: '1px solid #334155', outline: 'none', cursor: 'pointer', fontSize: '1rem' }}
                 >
-                  {METRICS.map(m => (
+                  {availableMetrics.map(m => (
                     <option key={m.id} value={m.id}>{m.label}</option>
                   ))}
                 </select>
