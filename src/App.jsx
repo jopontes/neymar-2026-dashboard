@@ -87,6 +87,7 @@ function MatchCard({ match }) {
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' | 'matches'
   const [viewMode, setViewMode] = useState('selecao'); // 'selecao' | 'clubes'
+  const [activeMetric, setActiveMetric] = useState('ga');
   const [selectedPlayers, setSelectedPlayers] = useState(['neymar', 'vini', 'raphinha', 'estevao', 'joaopedro']);
 
   const availableMetrics = useMemo(() => {
