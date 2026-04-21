@@ -158,13 +158,12 @@ function App() {
     <div className="dashboard-container">
 
       {/* TABS DE NAVEGAÇÃO PRINCIPAL */}
-      <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '1rem' }}>
+      <div className="nav-tabs">
         <button
           onClick={() => setActiveTab('dashboard')}
           style={{
-            background: 'transparent', color: activeTab === 'dashboard' ? '#fff' : '#8a8f98',
-            border: 'none', fontSize: '1.2rem', fontWeight: 'bold', cursor: 'pointer',
-            borderBottom: activeTab === 'dashboard' ? '2px solid #3b82f6' : 'none', paddingBottom: '0.5rem'
+            color: activeTab === 'dashboard' ? '#fff' : '#8a8f98',
+            borderBottom: activeTab === 'dashboard' ? '2px solid #3b82f6' : 'none',
           }}
         >
           Gráfico Comparativo
@@ -172,9 +171,8 @@ function App() {
         <button
           onClick={() => setActiveTab('matches')}
           style={{
-            background: 'transparent', color: activeTab === 'matches' ? '#fff' : '#8a8f98',
-            border: 'none', fontSize: '1.2rem', fontWeight: 'bold', cursor: 'pointer',
-            borderBottom: activeTab === 'matches' ? '2px solid #3b82f6' : 'none', paddingBottom: '0.5rem'
+            color: activeTab === 'matches' ? '#fff' : '#8a8f98',
+            borderBottom: activeTab === 'matches' ? '2px solid #3b82f6' : 'none',
           }}
         >
           Jogos da Seleção
@@ -189,10 +187,8 @@ function App() {
               Base de dados cobrindo os últimos 8 anos de Seleção e Clubes.
             </p>
 
-            {/* SELETORES GLOBAIS (CONTEXTO E MÉTRICA) */}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', background: 'rgba(255,255,255,0.05)', padding: '1rem', borderRadius: '16px', maxWidth: '800px', margin: '0 auto' }}>
-
-              <div style={{ display: 'flex', gap: '1rem' }}>
+                   <div className="controls-wrapper">
+              <div className="view-mode-toggle">
                 <button
                   onClick={() => setViewMode('selecao')}
                   style={{
@@ -215,20 +211,19 @@ function App() {
                 </button>
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.5rem' }}>
+              <div className="metric-select-box">
                 <SlidersHorizontal size={20} color="#8a8f98" />
-                <strong style={{ color: '#fff' }}>Escolha o Dado a Analisar:</strong>
+                <strong style={{ color: '#fff' }}>Dado Analisado:</strong>
                 <select
                   value={activeMetric}
                   onChange={(e) => setActiveMetric(e.target.value)}
-                  style={{ padding: '0.5rem', borderRadius: '8px', background: '#1e293b', color: '#fff', border: '1px solid #334155', outline: 'none', cursor: 'pointer', fontSize: '1rem' }}
+                  style={{ padding: '0.5rem', borderRadius: '8px', background: '#1e293b', color: '#fff', border: '1px solid #334155', outline: 'none', cursor: 'pointer', fontSize: '1rem', flex: 1 }}
                 >
                   {availableMetrics.map(m => (
                     <option key={m.id} value={m.id}>{m.label}</option>
                   ))}
                 </select>
               </div>
-
             </div>
           </header>
 
@@ -242,7 +237,7 @@ function App() {
               </p>
 
               {/* PLAYER SELECTOR */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1.5rem' }}>
+              <div className="player-selector">
                 {playersInfo.map(player => {
                   const isSelected = selectedPlayers.includes(player.id);
                   return (
